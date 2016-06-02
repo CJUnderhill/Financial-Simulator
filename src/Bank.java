@@ -37,7 +37,7 @@ public class Bank {
 			JOptionPane.showMessageDialog(null, "Existing bank account info failed to read.");
 		}
 	}
-	
+
 	// Create new account
 	public boolean createNewAccount(String acctNum, String acctPass) {
 		// Check if account already exists
@@ -51,13 +51,13 @@ public class Bank {
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Failed to create new account.");
 			}
-			
+
 			// Add account to HashMap of available accounts
 			availableAccounts.put(acctNum, new Account(acctNum, acctPass, 0.0f));
 			return true;
 		}
 	}
-	
+
 	// Update text file containing account info
 	public void updateAccountsList(String acctNum, String acctPass, float value) {
 		try (FileWriter fw = new FileWriter(accountFile, true)) {
