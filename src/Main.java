@@ -9,13 +9,11 @@ public class Main {
 		b.initializeBank();
 		System.out.println(b.createNewAccount("000000", "password"));
 		System.out.println(b.createNewAccount("999999", "password2!"));
-		
-		// Above this works properly
-		
 		b.depositTo("000000", "password", 100f);
 		b.depositTo("000000", "asfda", 10000000000.5f);
 		b.withdrawFrom("999999", "password2!", 10f);
-		//b.withdrawFrom("923829", "00293", 10000f);
+		
+		b.withdrawFrom("923829", "00293", 10000f);
 		
 		
 		

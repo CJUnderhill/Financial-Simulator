@@ -60,11 +60,10 @@ public class Bank {
 	
 	// Update text file containing account info
 	public void updateAccountsList(String acctNum, String acctPass, float value) {
-		try (BufferedWriter bw = new BufferedWriter(
-				new OutputStreamWriter(new FileOutputStream(accountFile)))) {
+		try (FileWriter fw = new FileWriter(accountFile, true)) {
 			// Create new line and record updated account to text file
-			bw.append(acctNum + " " + acctPass + " " + value);
-			bw.close();
+			fw.write(acctNum + " " + acctPass + " " + value + System.lineSeparator());
+			fw.close();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Failed to create new account.");
 		}
@@ -74,10 +73,11 @@ public class Bank {
 	protected boolean withdrawFrom(String acctNum, String acctPass, float value) {
 		Account acct = availableAccounts.get(acctNum);
 		// Check that input password matches
-		if (acct.login(acctNum, acctPass)) {
+		if (acct != null && acct.login(acctNum, acctPass)) {
 			// Withdraw value from account
-			acct.withdraw(value);
+			float newval = acct.withdraw(value);
 			availableAccounts.put(acctNum, acct);
+			updateAccountsList(acctNum, acctPass, newval);
 			return true;
 		} else {
 			return false;
@@ -88,10 +88,11 @@ public class Bank {
 	protected boolean depositTo(String acctNum, String acctPass, float value) {
 		Account acct = availableAccounts.get(acctNum);
 		// Check that input password matches
-		if (acct.login(acctNum, acctPass)) {
+		if (acct != null && acct.login(acctNum, acctPass)) {
 			// Deposit value into account
-			acct.deposit(value);
+			float newval = acct.deposit(value);
 			availableAccounts.put(acctNum, acct);
+			updateAccountsList(acctNum, acctPass, newval);
 			return true;
 		} else {
 			return false;
